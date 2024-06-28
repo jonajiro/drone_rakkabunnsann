@@ -9,7 +9,7 @@
             flex-direction: column;
             position: absolute;
             top: 40px;
-            left: 350px;
+            left: 950px;
             width: 300px;
         }
         .form-container label {
@@ -103,7 +103,7 @@
         <label>落下範囲半径 (m): <output type="number" id="result" value="0.0" step="0.1"></label>
     </div>
     <div class="container">
-        <canvas id="trajectoryCanvas" width="200" height="500"></canvas>
+        <canvas id="trajectoryCanvas" width="800" height="500"></canvas>
         <div class="x-axis-label">落下範囲半径 (m)</div>
         <div class="y-axis-label">高度 (m)</div>
     </div>
@@ -291,15 +291,6 @@
             input_rho = parseFloat(document.getElementById('input_rho').value);
             input_bodylen = parseFloat(document.getElementById('input_bodylen').value);
 
-            // mass = parseFloat(document.getElementById('mass').value);
-            // windSpeed = parseFloat(document.getElementById('windSpeed').value);
-            // initialVx = parseFloat(document.getElementById('initialVx').value);
-            // initialVy = 0.0;
-            // initialY = parseFloat(document.getElementById('initialY').value);
-            // initialCd = parseFloat(document.getElementById('cd').value);
-            // initialrho = parseFloat(document.getElementById('rho').value);
-            // initialArea = parseFloat(document.getElementById('area').value);
-
             trajectory = calculateTrajectory(input_mass, input_ws, input_Vx, input_Y, input_mu, input_rho, input_bodylen);
             drawTrajectory(trajectory);
         }
@@ -313,6 +304,17 @@
             // v1.value = String(input_mass)
             document.getElementById('input_mass').value = String(input_mass);
             document.getElementById('input_bodylen').value = String(input_bodylen);
+
+            input_mass = parseFloat(document.getElementById('input_mass').value);
+            input_ws = parseFloat(document.getElementById('input_ws').value);
+            input_Vx = parseFloat(document.getElementById('input_Vx').value);
+            input_Y = parseFloat(document.getElementById('input_Y').value);
+            input_mu = parseFloat(document.getElementById('input_mu').value);
+            input_rho = parseFloat(document.getElementById('input_rho').value);
+            input_bodylen = parseFloat(document.getElementById('input_bodylen').value);
+
+            trajectory = calculateTrajectory(input_mass, input_ws, input_Vx, input_Y, input_mu, input_rho, input_bodylen);
+            drawTrajectory(trajectory);
         }
 
         // 初期描画
