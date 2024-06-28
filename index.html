@@ -55,12 +55,38 @@
 <body>
 
     <div class="form-container">
-        <select id="mySelect" multiple size="5">
-            <option value="Option1">Option 1</option>
-            <option value="Option2">Option 2</option>
-            <option value="Option3">Option 3</option>
-            <option value="Option4">Option 4</option>
-            <option value="Option5">Option 5</option>
+        <select id="drone_select" onchange="selectChange()">
+            <option value=0>None Select...</option>
+            <option value=1>DJI Mini</option>
+            <option value=2>DJI Mini2</option>
+            <option value=3>DJI Mini2se</option>
+            <option value=4>DJI Mini 3 Pro</option>
+            <option value=5>DJI Mini 3</option>
+            <option value=6>DJI Mini 4 Pro</option>
+            <option value=7>Mavic Pro</option>
+            <option value=8>Mavic Pro Platinum</option>
+            <option value=9>Mavic2 Pro</option>
+            <option value=10>DJI Mavic 3</option>
+            <option value=11>DJI Mavic 3 Classic</option>
+            <option value=12>DJI Mavic 3 Pro</option>
+            <option value=13>Mavic Air</option>
+            <option value=14>Mavic Air 2</option>
+            <option value=15>DJI Air 2S</option>
+            <option value=16>DJI Air 3</option>
+            <option value=17>DJI FPV</option>
+            <option value=18>Phantom 3 Advanced</option>
+            <option value=19>Phantom 3 Professional</option>
+            <option value=20>Phantom 3 Standard</option>
+            <option value=21>Phantom 4</option>
+            <option value=22>Phantom 4 Pro</option>
+            <option value=23>Phantom 4 Advanced</option>
+            <option value=24>Phantom 4 Pro V2.0</option>
+            <option value=25>Inspire 1 V1.0</option>
+            <option value=26>Inspire 1 Raw</option>
+            <option value=27>Inspire 1 Pro</option>
+            <option value=28>Inspire 1 V2.0</option>
+            <option value=29>Inspire 2</option>
+            <option value=30>DJI Inspire 3</option>
         </select>
         <label>質量 (kg):　　　　 <input type="number" id="input_mass" value="0.9" step="0.1"></label>
         <label>機体最大幅 (m):　  <input type="number" id="input_bodylen" value="0.354" step="0.1"></label>
@@ -92,6 +118,38 @@
         let input_mu = parseFloat(document.getElementById('input_mu').value);
         let input_rho = parseFloat(document.getElementById('input_rho').value);
         let input_bodylen = parseFloat(document.getElementById('input_bodylen').value);
+        let drone_list = [
+        [0.9,0.354],//mavic2 pro
+        [0.199,Math.sqrt(0.245**2+0.289**2)],//DJI mini
+        [0.199,Math.sqrt(0.245**2+0.289**2)],//mini2
+        [0.246,Math.sqrt(0.245**2+0.289**2)],//mini2 se
+        [0.249,Math.sqrt(0.251**2+0.362**2)],//mini3 pro
+        [0.248,Math.sqrt(0.251**2+0.362**2)],//mini3
+        [0.249,Math.sqrt(0.298**2+0.373**2)],//mini4 pro
+        [0.734,0.335],//mavic pro
+        [0.734,0.335],//Mavic Pro Platinum
+        [0.9,0.354],//mavic2 pro
+        [0.895,0.3801],//DJI Mavic 3
+        [0.895,Math.sqrt(0.3475**2+0.283**2)],//DJI Mavic 3 Classic
+        [0.945,Math.sqrt(0.3475**2+0.2908**2)],//DJI Mavic 3 Pro
+        [0.430,0.213 ],//Mavic Air
+        [0.570 ,0.302 ],//Mavic Air 2
+        [0.595 ,0.302 ],//DJI Air 2S
+        [0.720 ,Math.sqrt(0.2588**2+0.326**2)],//DJI Air 3
+        [0.795 ,0.245],//DJI FPV
+        [1.280 ,0.350],//Phantom 3 Advanced
+        [1.280,0.350],//Phantom 3 Professional
+        [1.216 ,0.350],//Phantom 3 Standard
+        [1.380 ,0.350 ],//Phantom 4
+        [1.388,0.350],//Phantom 4 Pro
+        [1.368 ,0.35],//Phantom 4 Advanced
+        [1.375 ,0.350 ],//Phantom 4 Pro V2.0
+        [3.5,0.581],//Inspire 1 V1.0
+        [3.5,0.581],//Inspire 1 Raw
+        [3.5,0.581],//Inspire 1 Pro
+        [3.5,0.581],//Inspire 1 V2.0
+        [4.25,0.605],//Inspire 2
+        [4.310 ,0.695]];
 
         let g = 9.81;  // 重力加速度 (m/s^2)
 
@@ -233,8 +291,28 @@
             input_rho = parseFloat(document.getElementById('input_rho').value);
             input_bodylen = parseFloat(document.getElementById('input_bodylen').value);
 
+            // mass = parseFloat(document.getElementById('mass').value);
+            // windSpeed = parseFloat(document.getElementById('windSpeed').value);
+            // initialVx = parseFloat(document.getElementById('initialVx').value);
+            // initialVy = 0.0;
+            // initialY = parseFloat(document.getElementById('initialY').value);
+            // initialCd = parseFloat(document.getElementById('cd').value);
+            // initialrho = parseFloat(document.getElementById('rho').value);
+            // initialArea = parseFloat(document.getElementById('area').value);
+
             trajectory = calculateTrajectory(input_mass, input_ws, input_Vx, input_Y, input_mu, input_rho, input_bodylen);
             drawTrajectory(trajectory);
+        }
+        
+
+        function selectChange(){ 
+            let drone_select = document.getElementById('drone_select').value;
+            input_mass = drone_list[drone_select][0];
+            input_bodylen = drone_list[drone_select][1];
+            // let v1 = document.getElementById('mass');
+            // v1.value = String(input_mass)
+            document.getElementById('input_mass').value = String(input_mass);
+            document.getElementById('input_bodylen').value = String(input_bodylen);
         }
 
         // 初期描画
